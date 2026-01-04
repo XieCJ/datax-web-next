@@ -11,8 +11,8 @@ import com.wugui.datax.admin.entity.JobInfo;
 import com.wugui.datax.admin.entity.JobLog;
 import com.wugui.datax.admin.mapper.JobInfoMapper;
 import com.wugui.datax.admin.mapper.JobLogMapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/log")
-@Api(tags = "任务运行日志接口")
+@Tag(name = "任务运行日志接口")
 public class JobLogController {
     private static Logger logger = LoggerFactory.getLogger(JobLogController.class);
 
@@ -38,7 +38,7 @@ public class JobLogController {
     public JobLogMapper jobLogMapper;
 
     @GetMapping("/pageList")
-    @ApiOperation("运行日志列表")
+    @Operation(summary = "运行日志列表")
     public ReturnT<Map<String, Object>> pageList(
             @RequestParam(required = false, defaultValue = "0") int current,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -71,7 +71,7 @@ public class JobLogController {
     }
 
     @RequestMapping(value = "/logDetailCat", method = RequestMethod.GET)
-    @ApiOperation("运行日志详情")
+    @Operation(summary = "运行日志详情")
     public ReturnT<LogResult> logDetailCat(String executorAddress, long triggerTime, long logId, int fromLineNum) {
         try {
             ExecutorBiz executorBiz = JobScheduler.getExecutorBiz(executorAddress);
@@ -93,7 +93,7 @@ public class JobLogController {
     }
 
     @RequestMapping(value = "/logKill", method = RequestMethod.POST)
-    @ApiOperation("kill任务")
+    @Operation(summary = "kill任务")
     public ReturnT<String> logKill(int id) {
         // base check
         JobLog log = jobLogMapper.load(id);
@@ -127,7 +127,7 @@ public class JobLogController {
     }
 
     @PostMapping("/clearLog")
-    @ApiOperation("清理日志")
+    @Operation(summary = "清理日志")
     public ReturnT<String> clearLog(int jobGroup, int jobId, int type) {
 
         Date clearBeforeTime = null;
@@ -165,7 +165,7 @@ public class JobLogController {
         return ReturnT.SUCCESS;
     }
 
-    @ApiOperation("停止该job作业")
+    @Operation(summary = "停止该job作业")
     @PostMapping("/killJob")
     public ReturnT<String> killJob(@RequestBody JobLog log) {
         return KillJob.trigger(log.getId(), log.getTriggerTime(), log.getExecutorAddress(), log.getProcessId());

@@ -5,8 +5,8 @@ import com.wugui.datatx.core.biz.model.ReturnT;
 import com.wugui.datax.admin.core.util.I18nUtil;
 import com.wugui.datax.admin.entity.JobUser;
 import com.wugui.datax.admin.mapper.JobUserMapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ import static com.wugui.datatx.core.biz.model.ReturnT.FAIL_CODE;
  */
 @RestController
 @RequestMapping("/api/user")
-@Api(tags = "用户信息接口")
+@Tag(name = "用户信息接口")
 public class UserController {
 
     @Resource
@@ -34,7 +34,7 @@ public class UserController {
 
 
     @GetMapping("/pageList")
-    @ApiOperation("用户列表")
+    @Operation(summary = "用户列表")
     public ReturnT<Map<String, Object>> pageList(@RequestParam(required = false, defaultValue = "1") int current,
                                                  @RequestParam(required = false, defaultValue = "10") int size,
                                                  String username) {
@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/list")
-    @ApiOperation("用户列表")
+    @Operation(summary = "用户列表")
     public ReturnT<List<JobUser>> list(String username) {
 
         // page list
@@ -61,13 +61,13 @@ public class UserController {
     }
 
     @GetMapping("/getUserById")
-    @ApiOperation(value = "根据id获取用户")
+    @Operation(summary = "根据id获取用户")
     public ReturnT<JobUser> selectById(@RequestParam("userId") Integer userId) {
         return new ReturnT<>(jobUserMapper.getUserById(userId));
     }
 
     @PostMapping("/add")
-    @ApiOperation("添加用户")
+    @Operation(summary = "添加用户")
     public ReturnT<String> add(@RequestBody JobUser jobUser) {
 
         // valid username
@@ -101,7 +101,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/update")
-    @ApiOperation("更新用户信息")
+    @Operation(summary = "更新用户信息")
     public ReturnT<String> update(@RequestBody JobUser jobUser) {
         if (StringUtils.hasText(jobUser.getPassword())) {
             String pwd = jobUser.getPassword().trim();
@@ -122,14 +122,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
-    @ApiOperation("删除用户")
+    @Operation(summary = "删除用户")
     public ReturnT<String> remove(int id) {
         int result = jobUserMapper.delete(id);
         return result != 1 ? ReturnT.FAIL : ReturnT.SUCCESS;
     }
 
     @PostMapping(value = "/updatePwd")
-    @ApiOperation("修改密码")
+    @Operation(summary = "修改密码")
     public ReturnT<String> updatePwd(@RequestBody JobUser jobUser) {
         String password = jobUser.getPassword();
         if (password == null || password.trim().length() == 0) {

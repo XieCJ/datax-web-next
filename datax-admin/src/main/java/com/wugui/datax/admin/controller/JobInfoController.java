@@ -11,8 +11,8 @@ import com.wugui.datax.admin.dto.DataXBatchJsonBuildDto;
 import com.wugui.datax.admin.dto.TriggerJobDto;
 import com.wugui.datax.admin.entity.JobInfo;
 import com.wugui.datax.admin.service.JobService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -29,7 +29,7 @@ import java.util.Map;
  *
  * @author xuxueli 2015-12-19 16:13:16
  */
-@Api(tags = "任务配置接口")
+@Tag(name = "任务配置接口")
 @RestController
 @RequestMapping("/api/job")
 public class JobInfoController extends BaseController{
@@ -39,7 +39,7 @@ public class JobInfoController extends BaseController{
 
 
     @GetMapping("/pageList")
-    @ApiOperation("任务列表")
+    @Operation(summary = "任务列表")
     public ReturnT<Map<String, Object>> pageList(@RequestParam(required = false, defaultValue = "0") int current,
                                         @RequestParam(required = false, defaultValue = "10") int size,
                                         int jobGroup, int triggerStatus, String jobDesc, String glueType, Integer[] projectIds) {
@@ -48,45 +48,45 @@ public class JobInfoController extends BaseController{
     }
 
     @GetMapping("/list")
-    @ApiOperation("全部任务列表")
+    @Operation(summary = "全部任务列表")
     public ReturnT<List<JobInfo>> list(){
         return new ReturnT<>(jobService.list());
     }
 
     @PostMapping("/add")
-    @ApiOperation("添加任务")
+    @Operation(summary = "添加任务")
     public ReturnT<String> add(HttpServletRequest request, @RequestBody JobInfo jobInfo) {
         jobInfo.setUserId(getCurrentUserId(request));
         return jobService.add(jobInfo);
     }
 
     @PostMapping("/update")
-    @ApiOperation("更新任务")
+    @Operation(summary = "更新任务")
     public ReturnT<String> update(HttpServletRequest request,@RequestBody JobInfo jobInfo) {
         jobInfo.setUserId(getCurrentUserId(request));
         return jobService.update(jobInfo);
     }
 
     @PostMapping(value = "/remove/{id}")
-    @ApiOperation("移除任务")
+    @Operation(summary = "移除任务")
     public ReturnT<String> remove(@PathVariable(value = "id") int id) {
         return jobService.remove(id);
     }
 
     @RequestMapping(value = "/stop",method = RequestMethod.POST)
-    @ApiOperation("停止任务")
+    @Operation(summary = "停止任务")
     public ReturnT<String> pause(int id) {
         return jobService.stop(id);
     }
 
     @RequestMapping(value = "/start",method = RequestMethod.POST)
-    @ApiOperation("开启任务")
+    @Operation(summary = "开启任务")
     public ReturnT<String> start(int id) {
         return jobService.start(id);
     }
 
     @PostMapping(value = "/trigger")
-    @ApiOperation("触发任务")
+    @Operation(summary = "触发任务")
     public ReturnT<String> triggerJob(@RequestBody TriggerJobDto dto) {
         // force cover job param
         String executorParam=dto.getExecutorParam();
@@ -98,7 +98,7 @@ public class JobInfoController extends BaseController{
     }
 
     @GetMapping("/nextTriggerTime")
-    @ApiOperation("获取近5次触发时间")
+    @Operation(summary = "获取近5次触发时间")
     public ReturnT<List<String>> nextTriggerTime(String cron) {
         List<String> result = new ArrayList<>();
         try {
@@ -119,7 +119,7 @@ public class JobInfoController extends BaseController{
     }
 
     @PostMapping("/batchAdd")
-    @ApiOperation("批量创建任务")
+    @Operation(summary = "批量创建任务")
     public ReturnT<String> batchAdd(@RequestBody DataXBatchJsonBuildDto dto) throws IOException {
         if (dto.getTemplateId() ==0) {
             return new ReturnT<>(ReturnT.FAIL_CODE, (I18nUtil.getString("system_please_choose") + I18nUtil.getString("jobinfo_field_temp")));

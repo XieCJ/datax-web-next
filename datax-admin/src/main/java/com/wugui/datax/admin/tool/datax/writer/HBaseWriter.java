@@ -1,6 +1,6 @@
 package com.wugui.datax.admin.tool.datax.writer;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Maps;
 import com.wugui.datax.admin.tool.pojo.DataxHbasePojo;
 import org.apache.commons.lang3.StringUtils;

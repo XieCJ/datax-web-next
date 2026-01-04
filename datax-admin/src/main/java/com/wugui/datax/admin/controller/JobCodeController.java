@@ -6,8 +6,8 @@ import com.wugui.datax.admin.entity.JobInfo;
 import com.wugui.datax.admin.entity.JobLogGlue;
 import com.wugui.datax.admin.mapper.JobInfoMapper;
 import com.wugui.datax.admin.mapper.JobLogGlueMapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +23,7 @@ import static com.wugui.datatx.core.biz.model.ReturnT.FAIL_CODE;
  */
 @RestController
 @RequestMapping("/jobcode")
-@Api(tags = "任务状态接口")
+@Tag(name = "任务状态接口")
 public class JobCodeController {
 
     @Resource
@@ -33,7 +33,7 @@ public class JobCodeController {
 
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    @ApiOperation("保存任务状态")
+    @Operation(summary = "保存任务状态")
     public ReturnT<String> save(Model model, int id, String glueSource, String glueRemark) {
         // valid
         if (glueRemark == null) {

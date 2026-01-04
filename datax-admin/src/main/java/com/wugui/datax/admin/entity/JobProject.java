@@ -2,7 +2,7 @@ package com.wugui.datax.admin.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -16,26 +16,26 @@ import java.util.List;
 @Data
 public class JobProject {
 
-    @ApiModelProperty("项目Id")
+    @Schema(description = "项目Id")
     private int id;
 
-    @ApiModelProperty("项目名称")
+    @Schema(description = "项目名称")
     private String name;
 
-    @ApiModelProperty("项目描述")
+    @Schema(description = "项目描述")
     private String description;
 
-    @ApiModelProperty("用户Id")
+    @Schema(description = "用户Id")
     private int userId;
 
-    @ApiModelProperty("标记")
+    @Schema(description = "标记")
     private Boolean flag;
 
-    @ApiModelProperty("创建时间")
+    @Schema(description = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
-    @ApiModelProperty("更新时间")
+    @Schema(description = "更新时间")
     private Date updateTime;
 
     @TableField(exist=false)

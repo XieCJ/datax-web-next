@@ -1,8 +1,8 @@
 package com.wugui.datax.admin.config;
 
-import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
-import com.baomidou.mybatisplus.core.injector.ISqlInjector;
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * MybatisPlus配置类 Spring boot方式
  *
  * @author huzekang
+ * Updated for Mybatis Plus 3.5+
  */
 @EnableTransactionManagement
 @Configuration
@@ -19,26 +20,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class MybatisPlusConfig {
 
     /**
-     * 分页插件
+     * 分页插件 (Mybatis Plus 3.5+ 使用新配置)
      */
     @Bean
-    public PaginationInterceptor paginationInterceptor() {
-
-        PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
-        return paginationInterceptor.setOverflow(true);
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        // 添加分页插件
+        PaginationInnerInterceptor innerInterceptor = new PaginationInnerInterceptor(DbType.MYSQL);
+        // 设置请求的页面大于最大页后的操作，true调回到首页，false继续请求
+        innerInterceptor.setOverflow(true);
+        interceptor.addInnerInterceptor(innerInterceptor);
+        return interceptor;
     }
-
-    /**
-     * MyBatisPlus逻辑删除 ，需要在 yml 中配置开启
-     * 3.0.7.1版本的LogicSqlInjector里面什么都没做只是 extends DefaultSqlInjector
-     * 以后版本直接去的了LogicSqlInjector
-     *
-     * @return
-     */
-    @Bean
-    public ISqlInjector sqlInjector() {
-        return new DefaultSqlInjector();
-    }
-
 
 }

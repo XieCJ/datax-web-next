@@ -1,7 +1,7 @@
 package com.wugui.datax.admin.filter;
 
-import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.extension.api.R;
+import com.alibaba.fastjson2.JSON;
+import com.wugui.datax.admin.common.Result;
 import com.wugui.datax.admin.exception.TokenIsExpiredException;
 import com.wugui.datax.admin.util.JwtTokenUtils;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,7 +44,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             //返回json形式的错误信息
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
-            response.getWriter().write(JSON.toJSONString(R.failed(e.getMessage())));
+            response.getWriter().write(JSON.toJSONString(Result.failed(e.getMessage())));
             response.getWriter().flush();
             return;
         }

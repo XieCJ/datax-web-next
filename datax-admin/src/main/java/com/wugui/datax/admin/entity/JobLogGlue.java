@@ -1,6 +1,6 @@
 package com.wugui.datax.admin.entity;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,16 +15,16 @@ public class JobLogGlue {
 
     private int id;
 
-    @ApiModelProperty("任务主键ID")
+    @Schema(description = "任务主键ID")
     private int jobId;
 
-    @ApiModelProperty("GLUE类型\t#com.xxl.job.core.glue.GlueTypeEnum")
+    @Schema(description = "GLUE类型\t#com.xxl.job.core.glue.GlueTypeEnum")
     private String glueType;
 
-    @ApiModelProperty("GLUE源代码")
+    @Schema(description = "GLUE源代码")
     private String glueSource;
 
-    @ApiModelProperty("GLUE备注")
+    @Schema(description = "GLUE备注")
     private String glueRemark;
 
     private Date addTime;

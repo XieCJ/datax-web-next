@@ -1,39 +1,26 @@
 package com.wugui.datax.admin.config;
 
-import com.github.xiaoymin.swaggerbootstrapui.annotations.EnableSwaggerBootstrapUI;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * Swagger2API文档的配置
+ * SpringDoc OpenAPI文档配置
  * Created by jwk on 2019/07/05.
+ * Updated for SpringDoc OpenAPI (2024)
  */
 @Configuration
-@EnableSwagger2
-@EnableSwaggerBootstrapUI
 @ConditionalOnWebApplication
-public class SwaggerConfig implements WebMvcConfigurer {
+public class SwaggerConfig {
 
     @Bean
-    public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage("com.wugui.datax.admin.controller")).paths(PathSelectors.any())
-                .build();
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("DataX Web API Docs")
+                        .version("2.1.2")
+                        .description("DataX Web管理平台API文档"));
     }
-
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("DataX Web Api Docs").description("DataX Web Api Docs")
-                .build();
-    }
-
-
 }

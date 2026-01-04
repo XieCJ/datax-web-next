@@ -70,8 +70,8 @@ public class HBaseQueryTool {
      */
     public boolean dataSourceTest() throws IOException {
         Admin admin = connection.getAdmin();
-        HTableDescriptor[] tableDescriptor = admin.listTables();
-        return tableDescriptor.length > 0;
+        List<TableDescriptor> tableDescriptor = admin.listTableDescriptors();
+        return tableDescriptor.size() > 0;
     }
 
     /**
@@ -84,8 +84,8 @@ public class HBaseQueryTool {
         List<String> list = new ArrayList<>();
         Admin admin = connection.getAdmin();
         TableName[] names = admin.listTableNames();
-        for (int i = 0; i < names.length; i++) {
-            list.add(names[i].getNameAsString());
+        for (TableName name : names) {
+            list.add(name.getNameAsString());
         }
         return list;
     }

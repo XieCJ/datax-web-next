@@ -1,6 +1,6 @@
 package com.wugui.datax.admin.entity;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * @author xuxueli 2019-05-04 16:43:12
@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class JobRole {
 
     private int id;
-    @ApiModelProperty("账号")
+    @Schema(description = "账号")
     private String name;
 
     public int getId() {

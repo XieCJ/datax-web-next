@@ -1,16 +1,14 @@
 package com.wugui.datax.admin.controller;
 
+import com.wugui.datax.admin.common.Result;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.wugui.datax.admin.entity.JobRegistry;
 import com.wugui.datax.admin.service.JobRegistryService;
 import com.wugui.datax.admin.util.PageUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +21,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/jobRegistry")
-@Api(tags = "执行器资源监控")
+@Tag(name = "执行器资源监控")
 public class JobRegistryController extends BaseController {
 
 	@Autowired
@@ -35,15 +33,8 @@ public class JobRegistryController extends BaseController {
 	 * @return 所有数据
 	 */
 	@GetMapping
-	@ApiOperation("分页查询所有数据")
-	@ApiImplicitParams(
-			{@ApiImplicitParam(paramType = "query", dataType = "String", name = "current", value = "当前页", defaultValue = "1", required = true),
-					@ApiImplicitParam(paramType = "query", dataType = "String", name = "size", value = "一页大小", defaultValue = "10", required = true),
-					@ApiImplicitParam(paramType = "query", dataType = "Boolean", name = "ifCount", value = "是否查询总数", defaultValue = "true"),
-					@ApiImplicitParam(paramType = "query", dataType = "String", name = "ascs", value = "升序字段，多个用逗号分隔"),
-					@ApiImplicitParam(paramType = "query", dataType = "String", name = "descs", value = "降序字段，多个用逗号分隔")
-			})
-	public R<IPage<JobRegistry>> selectAll() {
+	@Operation(summary = "分页查询所有数据")
+	public Result<IPage<JobRegistry>> selectAll() {
 		BaseForm baseForm = new BaseForm();
 		return success(this.jobRegistryService.page(baseForm.getPlusPagingQueryEntity(), pageQueryWrapperCustom(baseForm.getParameters())));
 	}

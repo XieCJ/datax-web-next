@@ -2,8 +2,8 @@ package com.wugui.datax.admin.controller;
 
 import com.wugui.datatx.core.biz.model.ReturnT;
 import com.wugui.datax.admin.service.JobService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @author jingwk 2019-12-22 16:13:16
  */
 @RestController
-@Api(tags = "首页接口")
+@Tag(name = "首页接口")
 @RequestMapping("/api")
 public class IndexController {
 
@@ -28,13 +28,13 @@ public class IndexController {
 
 
     @GetMapping("/index")
-    @ApiOperation("监控图")
+    @Operation(summary = "监控图")
     public ReturnT<Map<String, Object>> index() {
         return new ReturnT<>(jobService.dashboardInfo());
     }
 
     @PostMapping("/chartInfo")
-    @ApiOperation("图表信息")
+    @Operation(summary = "图表信息")
     public ReturnT<Map<String, Object>> chartInfo() {
         return jobService.chartInfo();
     }
